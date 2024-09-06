@@ -1,59 +1,59 @@
-// models/User.js
-const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
-   // Other fields...
-   checkImages: [{ type: String }],
-});
-
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
-
 // routes/user.js
 const express = require('express');
-const User = require('../models/User');
-const { protect } = require('../middleware/authMiddleware');
 const bcrypt = require('bcryptjs');
+const pool = require('../db'); // Import PostgreSQL pool
+const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Update user profile
 router.put('/profile', protect, async (req, res) => {
-   const { name, password, checkImages } = req.body;
+  const { name, password, checkImages } = req.body;
 
-   try {
-      const user = await User.findById(req.user._id);
+  try {
+    const userId = req.user.id; // Get the authenticated user's ID from middleware
 
-      if (!user) {
-         return res.status(404).json({ message: 'User not found' });
-      }
+    // Fetch the user from PostgreSQL
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+    const user = result.rows[0];
 
-      if (name) {
-         user.name = name;
-      }
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-      if (password) {
-         const salt = await bcrypt.genSalt(10);
-         user.password = await bcrypt.hash(password, salt);
-      }
+    let updatedName = user.name;
+    let updatedPassword = user.password;
+    let updatedCheckImages = user.check_images;
 
-      if (checkImages && Array.isArray(checkImages)) {
-         user.checkImages = checkImages;
-      }
+    // Update the name if provided
+    if (name) {
+      updatedName = name;
+    }
 
-      const updatedUser = await user.save();
+    // Update the password if provided
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updatedPassword = await bcrypt.hash(password, salt);
+    }
 
-      res.json({
-         _id: updatedUser._id,
-         name: updatedUser.name,
-         email: updatedUser.email,
-         balance: updatedUser.balance,
-         role: updatedUser.role,
-         checkImages: updatedUser.checkImages,
-      });
-   } catch (error) {
-      res.status(500).json({ message: 'Server error' });
-   }
+    // Update checkImages if provided
+    if (checkImages && Array.isArray(checkImages)) {
+      updatedCheckImages = checkImages;
+    }
+
+    // Update the user in the PostgreSQL database
+    const updateQuery = `
+      UPDATE users
+      SET name = $1, password = $2, check_images = $3
+      WHERE id = $4
+      RETURNING id, name, email, balance, role, check_images;
+    `;
+    const updatedUser = await pool.query(updateQuery, [updatedName, updatedPassword, updatedCheckImages, userId]);
+
+    res.json(updatedUser.rows[0]);
+  } catch (error) {
+    console.error('Profile update error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 module.exports = router;
