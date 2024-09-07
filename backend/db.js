@@ -1,23 +1,27 @@
-// db.js
 const { Pool } = require('pg');
-const dotenv = require('dotenv');
 
-// Load environment variables from .env file
-dotenv.config();
+const isProduction = process.env.NODE_ENV === 'production';
 
-// Create a new pool instance, using the connection string from the environment variables
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-});
-
-// Connect to the PostgreSQL database and log success or error
-pool.connect((err) => {
-  if (err) {
-    console.error('Error connecting to PostgreSQL', err);
-  } else {
-    console.log('Connected to PostgreSQL');
+  ssl: {
+    rejectUnauthorized: false
   }
 });
 
-// Export the pool instance for use in other parts of the application
 module.exports = pool;
+const jwt = require('jsonwebtoken');
+
+const authenticateToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+
+module.exports = authenticateToken;
