@@ -1,8 +1,8 @@
 const express = require('express');
-const User = require('../models/user'); // Corrected path
-const Transaction = require('../models/Transaction'); // Corrected path
-const { protect } = require('../middleware/authMiddleware'); // Corrected path
-const upload = require('../middleware/uploadMiddleware'); // Corrected path
+const User = require('../models/user'); // Correct relative path
+const Transaction = require('../models/Transaction'); // Correct relative path
+const { protect } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware'); // Correct path
 const router = express.Router();
 
 // Helper function to get withdrawal limit based on account type
