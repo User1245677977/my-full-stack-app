@@ -1,3 +1,8 @@
+const apiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://your-app-name.herokuapp.com'
+  : 'http://localhost:5000';
+
+//checkdeposit.js
 import React, { useContext, useState } from "react";
 import axios from 'axios';
 import { UserContext } from "./context";
@@ -66,7 +71,7 @@ function CheckDeposit() {
     if (!checkAccountLimits(numAmount)) return;
 
     try {
-      const response = await axios.post('/api/transaction', {
+      const response = await axios.post(`${apiUrl}/api/transaction`, {
         type: transactionType,
         amount: numAmount,
         userId: user._id,

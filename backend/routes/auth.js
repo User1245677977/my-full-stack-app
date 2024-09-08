@@ -1,8 +1,13 @@
+const apiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://your-app-name.herokuapp.com'
+  : 'http://localhost:5000';
+
 const express = require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const pool = require('./db');
+const router = express.Router(); // Make sure to define router
 
 // Function to generate a random account number
 function generateAccountNumber() {
@@ -22,10 +27,11 @@ router.post('/register', async (req, res) => {
 
       const accountNumber = generateAccountNumber(); // Generate the account number
 
+      const hashedPassword = await bcrypt.hash(password, 12); // Hash password before saving it
       const user = await User.create({ 
          name, 
          email, 
-         password, 
+         password: hashedPassword, // Store hashed password
          accountNumber // Store the account number in the user document
       });
 
@@ -50,7 +56,7 @@ router.post('/login', async (req, res) => {
          return res.status(400).json({ message: 'Invalid credentials' });
       }
 
-      const isMatch = await user.matchPassword(password);
+      const isMatch = await bcrypt.compare(password, user.password); // Compare password
 
       if (!isMatch) {
          return res.status(400).json({ message: 'Invalid credentials' });

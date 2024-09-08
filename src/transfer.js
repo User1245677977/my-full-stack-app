@@ -1,3 +1,8 @@
+const apiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://your-app-name.herokuapp.com'
+  : 'http://localhost:5000';
+
+//transfer.js
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './context';
@@ -10,7 +15,7 @@ function Transfer() {
 
     const handleTransfer = async () => {
         try {
-            const response = await axios.post('/api/transfer', {
+            const response = await axios.post(`${apiUrl}/api/transfer`, {
                 senderId: currentUser._id, // Accessing currentUser from context
                 recipientId,
                 amount: parseFloat(amount),
