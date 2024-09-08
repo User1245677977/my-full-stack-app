@@ -12,6 +12,7 @@ const checkDepositRoute = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Correct import
 const pool = require('./db'); // Importing the pool for PostgreSQL
 const authMiddleware = require('./middleware/authMiddleware');
+const connectDB = require('./db');
 
 
 dotenv.config();
