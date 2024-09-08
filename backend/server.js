@@ -11,6 +11,8 @@ const updateRoutes = require('./routes/update');
 const checkDepositRoute = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Correct import
 const pool = require('./db'); // Importing the pool for PostgreSQL
+const authMiddleware = require('./middleware/authMiddleware');
+
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoute);
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
+app.use('/some-route', authMiddleware, someRouteHandler);
+
 
 // Example route to fetch data from PostgreSQL
 app.get('/users-pg', async (req, res) => {
