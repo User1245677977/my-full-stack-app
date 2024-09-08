@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const pool = require('./db');
 const router = express.Router(); // Make sure to define router
-const db = require('../db'); // or './db' depending on folder structure
+const db = require('../db'); 
 
 
 // Function to generate a random account number
