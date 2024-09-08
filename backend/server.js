@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./db');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -12,7 +13,6 @@ const checkDepositRoute = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Correct import
 const pool = require('./db'); // Importing the pool for PostgreSQL
 const authMiddleware = require('./middleware/authMiddleware');
-const connectDB = require('./db');
 
 
 dotenv.config();
