@@ -6,7 +6,7 @@ const express = require('express');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const pool = require('./db');
+const db = require('./db');
 const router = express.Router(); // Make sure to define router
 const db = require('../db'); 
 
