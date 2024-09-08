@@ -6,9 +6,8 @@ const express = require('express');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const db = require('./db');
+const db = require('../db');  // Adjust the path as needed
 const router = express.Router(); // Make sure to define router
-const db = require('../db'); 
 
 
 // Function to generate a random account number
