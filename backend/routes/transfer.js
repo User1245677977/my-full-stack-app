@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user'); // Assuming you have a User model
-const authMiddleware = require('../middleware/auth'); // Assuming you have an auth middleware
+const authMiddleware = require('../middleware/authMiddleware'); // Assuming you have an auth middleware
 const mongoose = require('mongoose'); // To validate ObjectIds
 
 router.post('/transfer', authMiddleware, async (req, res) => {
@@ -18,6 +18,7 @@ router.post('/transfer', authMiddleware, async (req, res) => {
     }
 
     try {
+
         // Fetch sender and recipient
         const sender = await User.findById(senderId);
         const recipient = await User.findById(recipientId);
