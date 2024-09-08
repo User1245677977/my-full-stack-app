@@ -9,8 +9,8 @@ const accountRoutes = require('./routes/account');
 const userRoutes = require('./routes/user');
 const updateRoutes = require('./routes/update');
 const checkDepositRoute = require('./routes/checkDeposit');
-const { upload } = require('../middleware/uploadMiddleware');
-const pool = require('./db'); // importing the pool from db.js for PostgreSQL
+const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Correct import
+const pool = require('./db'); // Importing the pool for PostgreSQL
 
 dotenv.config();
 
@@ -20,17 +20,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the React app build folder
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // API Routes
-app.use('/api', transferRoute);
+app.use('/api/transfer', transferRoute);
 app.use('/api/auth', authRoutes);
 app.use('/api/accounts', accountRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoute);
-app.use('/api/upload-middleware', uploadMiddleware);
+app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
 
 // Example route to fetch data from PostgreSQL
 app.get('/users-pg', async (req, res) => {
@@ -43,18 +46,18 @@ app.get('/users-pg', async (req, res) => {
   }
 });
 
+// Catch-all handler to return React app for any other request
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error(err));
-
-// Root Route
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error(err));
 
 // Start the server
 const PORT = process.env.PORT || 5000;
