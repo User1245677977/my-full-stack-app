@@ -33,7 +33,6 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use('/api/transfer', transferRoute);
 app.use('/api/auth', authRoutes);
 app.use('/api/accounts', accountRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoute);
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
