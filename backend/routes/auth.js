@@ -3,7 +3,7 @@ const apiUrl = process.env.NODE_ENV === 'production'
   : 'http://localhost:5000';
 
 const express = require('express');
-const User = require('../models/User');
+const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('../db');  // Adjust the path as needed

@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/User'); // Correct relative path
+const User = require('../models/user'); // Correct relative path
 const Transaction = require('../models/Transaction'); // Correct relative path
 const { protect } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware'); // Correct path
