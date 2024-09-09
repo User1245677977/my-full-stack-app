@@ -1,11 +1,12 @@
-const apiUrl = process.env.NODE_ENV === 'production'
-  ? 'https://your-app-name.herokuapp.com'
-  : 'http://localhost:5000';
-
-//transfer.js
+// Import statements should be at the top
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './context';
+
+// Set the API URL based on environment
+const apiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://your-app-name.herokuapp.com'
+  : 'http://localhost:5000';
 
 function Transfer() {
     const { currentUser } = useContext(UserContext);

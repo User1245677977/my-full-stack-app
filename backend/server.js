@@ -1,5 +1,6 @@
+// server.js
 const express = require('express');
-const connectDB = require('./db');
+const connectDB = require('./db'); // Correct import for your DB connection (MongoDB or PostgreSQL depending on setup)
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -7,13 +8,13 @@ const path = require('path');
 const transferRoute = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
-const User = require('../models/user');
+const User = require('./models/User'); // Correct import path for the User model
 const updateRoutes = require('./routes/update');
 const checkDepositRoute = require('./routes/checkDeposit');
-const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Correct import
+const { uploadMiddleware } = require('./middleware/uploadMiddleware'); // Correct import
 const pool = require('./db'); // Importing the pool for PostgreSQL
 const authMiddleware = require('./middleware/authMiddleware');
-
+const someRouteHandler = require('./routes/someRouteHandler'); // Ensure this is imported or implemented properly
 
 dotenv.config();
 
@@ -36,8 +37,7 @@ app.use('/api/accounts', accountRoutes);
 app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoute);
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
-app.use('/some-route', authMiddleware, someRouteHandler);
-
+app.use('/some-route', authMiddleware, someRouteHandler); // Example route with middleware
 
 // Example route to fetch data from PostgreSQL
 app.get('/users-pg', async (req, res) => {

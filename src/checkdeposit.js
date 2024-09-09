@@ -1,11 +1,12 @@
-const apiUrl = process.env.NODE_ENV === 'production'
-  ? 'https://your-app-name.herokuapp.com'
-  : 'http://localhost:5000';
-
-//checkdeposit.js
+// Import statements should be at the top
 import React, { useContext, useState } from "react";
 import axios from 'axios';
 import { UserContext } from "./context";
+
+// Set the API URL based on environment
+const apiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://your-app-name.herokuapp.com'
+  : 'http://localhost:5000';
 
 // Client-side CheckDeposit component
 function CheckDeposit() {
