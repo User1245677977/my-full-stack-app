@@ -25,7 +25,7 @@ userSchema.methods.matchPassword = async function(enteredPassword) {
 };
 
 // Define and export the Mongoose model
-const user = mongoose.model('user', userSchema);
+const User = mongoose.model('user', userSchema);
 
 // Express and PostgreSQL related functionality
 const express = require('express');
@@ -45,7 +45,7 @@ router.put('/profile', protect, async (req, res) => {
     const user = result.rows[0];
 
     if (!user) {
-      return res.status(404).json({ message: 'user not found' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     let updatedName = user.name;
@@ -75,9 +75,9 @@ router.put('/profile', protect, async (req, res) => {
       WHERE id = $4
       RETURNING id, name, email, balance, role, check_images;
     `;
-    const updated = await pool.query(updateQuery, [updatedName, updatedPassword, updatedCheckImages, userId]);
+    const updatedUser = await pool.query(updateQuery, [updatedName, updatedPassword, updatedCheckImages, userId]);
 
-    res.json(updateduser.rows[0]);
+    res.json(updatedUser.rows[0]);
   } catch (error) {
     console.error('Profile update error:', error);
     res.status(500).json({ message: 'Server error' });
@@ -85,4 +85,4 @@ router.put('/profile', protect, async (req, res) => {
 });
 
 // Export both the Mongoose model and the Express router
-module.exports = { user, router };
+module.exports = { User, router };
