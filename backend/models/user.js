@@ -1,88 +1,102 @@
-// Mongoose and MongoDB related functionality
-const mongoose = require('mongoose');
+// Sequelize and PostgreSQL related functionality
+const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
-
-// Define the Mongoose schema for MongoDB
-const userSchema = new mongoose.Schema({
-   name: { type: String, required: true },
-   email: { type: String, required: true, unique: true },
-   password: { type: String, required: true },
-   balance: { type: Number, default: 0 },
-   role: { type: String, default: 'customer' },
-});
-
-// Pre-save hook to hash password before saving
-userSchema.pre('save', async function(next) {
-   if (!this.isModified('password')) return next();
-   const salt = await bcrypt.genSalt(10);
-   this.password = await bcrypt.hash(this.password, salt);
-   next();
-});
-
-// Method to compare entered password with stored hashed password
-userSchema.methods.matchPassword = async function(enteredPassword) {
-   return await bcrypt.compare(enteredPassword, this.password);
-};
-
-// Define and export the Mongoose model
-const User = mongoose.model('user', userSchema);
-
-// Express and PostgreSQL related functionality
 const express = require('express');
-const pool = require('../db'); // Import PostgreSQL pool
 const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// Route to update user profile using PostgreSQL
+// Import Sequelize instance
+const sequelize = require('../db');
+
+// Define the Sequelize model for PostgreSQL
+const User = sequelize.define('User', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  balance: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0,
+  },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'customer',
+  },
+  check_images: {
+    type: DataTypes.ARRAY(DataTypes.STRING), // Array of strings for storing check images
+    defaultValue: [],
+  },
+}, {
+  tableName: 'users', // Explicit table name, optional
+  timestamps: true,   // Auto-manage createdAt and updatedAt fields
+});
+
+// Sequelize hook to hash password before saving
+User.beforeCreate(async (user) => {
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
+});
+
+User.beforeUpdate(async (user) => {
+  if (user.changed('password')) {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+  }
+});
+
+// Method to compare entered password with stored hashed password
+User.prototype.matchPassword = async function(enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// Route to update user profile using Sequelize
 router.put('/profile', protect, async (req, res) => {
   const { name, password, checkImages } = req.body;
 
   try {
     const userId = req.user.id; // Get authenticated user's ID from middleware
 
-    // Fetch the user from PostgreSQL
-    const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
-    const user = result.rows[0];
+    // Fetch the user from PostgreSQL using Sequelize
+    const user = await User.findOne({ where: { id: userId } });
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    let updatedName = user.name;
-    let updatedPassword = user.password;
-    let updatedCheckImages = user.check_images;
-
-    // Update the name if provided
-    if (name) {
-      updatedName = name;
-    }
-
-    // Update the password if provided
+    // Update the user's details if new values are provided
+    if (name) user.name = name;
     if (password) {
       const salt = await bcrypt.genSalt(10);
-      updatedPassword = await bcrypt.hash(password, salt);
+      user.password = await bcrypt.hash(password, salt);
     }
+    if (checkImages && Array.isArray(checkImages)) user.check_images = checkImages;
 
-    // Update checkImages if provided
-    if (checkImages && Array.isArray(checkImages)) {
-      updatedCheckImages = checkImages;
-    }
+    // Save the updated user using Sequelize's `update` method
+    await user.save();
 
-    // Update the user in PostgreSQL
-    const updateQuery = `
-      UPDATE users
-      SET name = $1, password = $2, check_images = $3
-      WHERE id = $4
-      RETURNING id, name, email, balance, role, check_images;
-    `;
-    const updatedUser = await pool.query(updateQuery, [updatedName, updatedPassword, updatedCheckImages, userId]);
-
-    res.json(updatedUser.rows[0]);
+    // Return the updated user details
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      balance: user.balance,
+      role: user.role,
+      check_images: user.check_images,
+    });
   } catch (error) {
     console.error('Profile update error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Export both the Mongoose model and the Express router
+// Export both the Sequelize model and the Express router
 module.exports = { User, router };

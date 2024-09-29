@@ -1,26 +1,24 @@
-const mongoose = require('mongoose');
+// db.js
+const { Sequelize } = require('sequelize');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
+
+// Set up a new Sequelize instance for PostgreSQL
+const sequelize = new Sequelize(process.env.PG_URI, {
+  dialect: 'postgres',
+  logging: false, // Disable logging; default: console.log
+});
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    await sequelize.authenticate();
+    console.log('PostgreSQL connected successfully.');
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error('Unable to connect to the database:', error);
     process.exit(1);
   }
 };
 
-module.exports = connectDB;
-
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  connectionString: process.env.PG_URI
-});
-
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-};
+module.exports = { sequelize, connectDB };

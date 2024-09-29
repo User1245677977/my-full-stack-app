@@ -1,20 +1,22 @@
 // server.js
 const express = require('express');
-const connectDB = require('./db'); // Correct import for your DB connection (MongoDB or PostgreSQL depending on setup)
-const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const { connectDB, sequelize } = require('./db'); // Import connectDB function and Sequelize instance
+
+// Import your routes and middleware
 const transferRoute = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
-const User = require('./models/user'); // Correct import path for the User model
 const updateRoutes = require('./routes/update');
-const checkDepositRoute = require('./routes/checkDeposit');
-const { uploadMiddleware } = require('./middleware/uploadMiddleware'); // Correct import
-const pool = require('./db'); // Importing the pool for PostgreSQL
+const checkDepositRoute = require('./routes/CheckDeposit');
+const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
-const someRouteHandler = require('./routes/someRouteHandler'); // Ensure this is imported or implemented properly
+const someRouteHandler = require('./routes/someRouteHandler');
+
+// Import Sequelize models
+const { User, Transaction } = require('./models'); // Assuming you have index.js exporting models in /models directory
 
 dotenv.config();
 
@@ -39,11 +41,11 @@ app.use('/api/check-deposit', checkDepositRoute);
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
 app.use('/some-route', authMiddleware, someRouteHandler); // Example route with middleware
 
-// Example route to fetch data from PostgreSQL
+// Example route to fetch data from PostgreSQL using Sequelize
 app.get('/users-pg', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users');
-    res.json(result.rows);
+    const users = await User.findAll(); // Use Sequelize to fetch all users
+    res.json(users);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -55,14 +57,19 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+// Connect to PostgreSQL using the connectDB function
+connectDB();
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, async () => {
+  console.log(`Server running on port ${PORT}`);
+
+  // Sync the Sequelize models with the database
+  try {
+    await sequelize.sync({ alter: true }); // Sync models; use { force: true } to drop & recreate tables
+    console.log('Database synced successfully');
+  } catch (err) {
+    console.error('Error syncing database:', err);
+  }
+});
