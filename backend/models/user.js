@@ -4,12 +4,15 @@ const bcrypt = require('bcryptjs');
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
-
-// Import Sequelize instance
-const sequelize = require('../db');
+const { sequelize } = require('../db');
 
 // Define the Sequelize model for PostgreSQL
 const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
