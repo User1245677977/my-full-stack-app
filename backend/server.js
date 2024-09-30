@@ -10,7 +10,7 @@ const transferRoute = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const updateRoutes = require('./routes/update');
-const checkDepositRoute = require('./routes/CheckDeposit');
+const checkDeposit = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
 const someRouteHandler = require('./routes/someRouteHandler');
@@ -40,6 +40,7 @@ app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoute);
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
 app.use('/some-route', authMiddleware, someRouteHandler); // Example route with middleware
+app.use('/checkDeposit', checkDeposit);
 
 // Example route to fetch data from PostgreSQL using Sequelize
 app.get('/users-pg', async (req, res) => {
