@@ -1,9 +1,13 @@
 const express = require('express');
-const { protect } = require('../middleware/protect'); // Your auth middleware
-const { upload } = require('../middleware/uploadMiddleware'); // The multer middleware
 const router = express.Router();
 
-// Initial simple route for check deposit (optional if you want to keep it)
+// Ensure the path is correct based on your project structure
+const { protect } = require('../middleware/protect'); // Adjust this path as needed
+const { protect } = require('../middleware/authMiddleware');
+const { upload } = require('../middleware/uploadMiddleware'); // Correct path to upload middleware
+const User = require('../models/user'); // Import the user model if required for user operations
+
+// Initial simple route for check deposit (optional)
 router.post('/', (req, res) => {
   res.send('Check deposit route');
 });

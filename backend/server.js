@@ -4,13 +4,14 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const { connectDB, sequelize } = require('./db'); // Import connectDB function and Sequelize instance
+const app = express();
 
 // Import your routes and middleware
 const transferRoute = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const updateRoutes = require('./routes/update');
-const checkDeposit = require('./routes/checkDeposit');
+const checkDepositRoute = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
 const someRouteHandler = require('./routes/someRouteHandler');
@@ -19,8 +20,6 @@ const someRouteHandler = require('./routes/someRouteHandler');
 const { User, Transaction } = require('./models'); // Assuming you have index.js exporting models in /models directory
 
 dotenv.config();
-
-const app = express();
 
 // Middleware
 app.use(cors());
