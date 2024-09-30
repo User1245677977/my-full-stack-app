@@ -1,9 +1,13 @@
 const express = require('express');
-const User = require('../models/user'); // Correct relative path
-const Transaction = require('../models/Transaction'); // Correct relative path
-const { protect } = require('../middleware/authMiddleware');
-const upload = require('../middleware/uploadMiddleware'); // Correct path
 const router = express.Router();
+
+// Import the correct models
+const User = require('../models/user'); // Make sure this path is correct
+const Transaction = require('../models/Transaction'); // Make sure this path is correct
+
+// Import middleware
+const { protect } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware'); // Correct relative path to the upload middleware
 
 // Helper function to get withdrawal limit based on account type
 const getWithdrawalLimit = (accountType) => {
@@ -29,7 +33,6 @@ router.post('/check-deposit', protect, upload.single('checkImage'), async (req, 
       // Store the file path in the user's document or handle it as needed
       const filePath = req.file.path;
 
-      // You can also store this filePath in the user's document or another collection in the database.
       res.status(200).json({ message: 'Check deposited successfully', filePath });
    } catch (error) {
       res.status(500).json({ message: 'Server error', error });

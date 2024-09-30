@@ -13,7 +13,6 @@ if (!databaseUrl) {
 }
 console.log("Database URL:", databaseUrl);
 
-
 // Set up a new Sequelize instance for PostgreSQL
 const sequelize = new Sequelize(databaseUrl, {
   dialect: 'postgres',

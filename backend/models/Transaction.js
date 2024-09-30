@@ -1,30 +1,28 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./database'); // Import the Sequelize instance
+const { sequelize } = require('../db'); // Use the correct path to `db.js`
 
+// Define the Transaction model
 const Transaction = sequelize.define('Transaction', {
-  userId: {
-    type: DataTypes.INTEGER, // Use INTEGER to reference the User ID
-    allowNull: false,
-    references: {
-      model: 'Users', // Name of the table you're referencing
-      key: 'id',      // Primary key of the referenced table
-    },
-  },
-  type: {
-    type: DataTypes.ENUM('deposit', 'withdraw'), // Enum for deposit and withdraw
-    allowNull: false,
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
   },
   amount: {
-    type: DataTypes.FLOAT, // Store as float or decimal based on your requirements
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
-  date: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW, // Default to the current date and time
+  type: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  accountId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 }, {
-  tableName: 'transactions', // Explicit table name, optional
-  timestamps: true,         // Auto-manage createdAt and updatedAt fields
+  tableName: 'transactions',
+  timestamps: true,
 });
 
 module.exports = Transaction;
