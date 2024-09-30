@@ -11,6 +11,8 @@ if (!databaseUrl) {
   console.error("DATABASE_URL or PG_URI is not defined. Please check your environment variables.");
   process.exit(1);
 }
+console.log("Database URL:", databaseUrl);
+
 
 // Set up a new Sequelize instance for PostgreSQL
 const sequelize = new Sequelize(databaseUrl, {
