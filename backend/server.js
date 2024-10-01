@@ -11,10 +11,9 @@ const transferRoute = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const updateRoutes = require('./routes/update');
-const checkDepositRoute = require('./routes/checkDeposit');
+const checkDeposit = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
-const someRouteHandler = require('./routes/someRouteHandler');
 
 // Import Sequelize models
 const { User, Transaction } = require('./models'); // Assuming you have index.js exporting models in /models directory
