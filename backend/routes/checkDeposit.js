@@ -1,6 +1,8 @@
+// checkDeposit.js
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware'); // Make sure to include the upload middleware
 
 // Initial simple route for check deposit (optional)
 router.post('/', (req, res) => {

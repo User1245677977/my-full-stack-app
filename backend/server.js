@@ -1,5 +1,14 @@
 // server.js
 const express = require('express');
+const router = express.Router();
+const multer = require('multer'); // Add this line
+const { protect } = require('../middleware/authMiddleware');
+
+// Define the storage destination for multer
+const storage = multer.memoryStorage(); // You can configure storage options as needed
+
+// Initialize multer with the storage configuration
+const upload = multer({ storage: storage });
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
@@ -15,6 +24,7 @@ const checkDepositRoute = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
 const someRouteHandler = require('./routes/someRouteHandler');
+const { protect } = require('../middleware/authMiddleware');
 
 // Import Sequelize models
 const { User, Transaction } = require('./models'); // Assuming you have index.js exporting models in /models directory
@@ -39,7 +49,7 @@ app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoute);
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
 app.use('/some-route', authMiddleware, someRouteHandler); // Example route with middleware
-app.use('/checkDeposit', checkDeposit);
+app.use('/api/check-deposit', checkDepositRoute);
 
 // Example route to fetch data from PostgreSQL using Sequelize
 app.get('/users-pg', async (req, res) => {
