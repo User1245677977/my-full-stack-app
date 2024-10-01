@@ -1,14 +1,5 @@
 // server.js
 const express = require('express');
-const router = express.Router();
-const multer = require('multer'); // Add this line
-const { protect } = require('../middleware/authMiddleware');
-
-// Define the storage destination for multer
-const storage = multer.memoryStorage(); // You can configure storage options as needed
-
-// Initialize multer with the storage configuration
-const upload = multer({ storage: storage });
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
@@ -24,7 +15,6 @@ const checkDepositRoute = require('./routes/checkDeposit');
 const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
 const someRouteHandler = require('./routes/someRouteHandler');
-const { protect } = require('../middleware/authMiddleware');
 
 // Import Sequelize models
 const { User, Transaction } = require('./models'); // Assuming you have index.js exporting models in /models directory
