@@ -16,7 +16,7 @@ const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
 
 // Import Sequelize models
-const { User, Transaction } = require('./models'); // Assuming you have index.js exporting models in /models directory
+const { User, Transaction } = require('./models');
 
 dotenv.config();
 
