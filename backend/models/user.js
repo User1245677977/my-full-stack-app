@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { sequelize } = require('../db'); // Ensure correct import of sequelize instance
 
-// Define the User model
+// Define the User model using Sequelize
 const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
@@ -31,25 +31,35 @@ const User = sequelize.define('User', {
     defaultValue: 'customer',
   },
   check_images: {
-    type: DataTypes.ARRAY(DataTypes.STRING), // Array of strings for storing check images
+    type: DataTypes.ARRAY(DataTypes.STRING), // Array of strings for storing check images (PostgreSQL specific)
     defaultValue: [],
   },
 }, {
-  tableName: 'users', // Optional: define table name explicitly
+  tableName: 'users', // Define table name explicitly
   timestamps: true,   // Auto-manage createdAt and updatedAt fields
 });
 
-// Hook to hash password before saving
+// Hook to hash password before saving a new user
 User.beforeCreate(async (user) => {
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+  try {
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
+    return user;
+  } catch (error) {
+    throw new Error('Error while hashing password during creation');
+  }
 });
 
 // Hook to hash password before updating, if changed
 User.beforeUpdate(async (user) => {
   if (user.changed('password')) {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    try {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+      return user;
+    } catch (error) {
+      throw new Error('Error while hashing password during update');
+    }
   }
 });
 
