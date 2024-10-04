@@ -7,13 +7,11 @@ const path = require('path');
 const { connectDB, sequelize } = require('./db'); // Import connectDB function and Sequelize instance
 
 // Import your routes and middleware
-const transferRoutes = require('./routes/transfer');
-const authRoutes = require('./routes/auth');
-const accountRoutes = require('./routes/account');
-const updateRoutes = require('./routes/update');
-const { uploadMiddleware } = require('./middleware/uploadMiddleware');
-const authMiddleware = require('./middleware/authMiddleware');
-const checkDepositRoutes = require('./routes/checkDeposit'); // Fix variable name to match usage
+console.log('transferRoutes:', transferRoutes);
+console.log('authRoutes:', authRoutes);
+console.log('accountRoutes:', accountRoutes);
+console.log('updateRoutes:', updateRoutes);
+console.log('checkDepositRoutes:', checkDepositRoutes);
 
 // Import Sequelize models
 const { User, Transaction } = require('./models');
@@ -30,17 +28,17 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-// API Routes (Fixed route variables)
-app.use('/api/transfer', transferRoutes); // Changed from transferRoute to transferRoutes
-app.use('/api/auth', authRoutes);
-app.use('/api/accounts', accountRoutes);
-app.use('/api/update', updateRoutes);
-app.use('/api/check-deposit', checkDepositRoutes); // Changed from checkDepositRoute to checkDepositRoutes
-app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
+// API Routes
+app.use('/api/transfer', transferRoutes); // Ensure 'transferRoutes' is defined correctly
+app.use('/api/auth', authRoutes); // Ensure 'authRoutes' is defined correctly
+app.use('/api/accounts', accountRoutes); // Ensure 'accountRoutes' is defined correctly
+app.use('/api/update', updateRoutes); // Ensure 'updateRoutes' is defined correctly
+app.use('/api/check-deposit', checkDepositRoutes); // Ensure 'checkDepositRoutes' is defined correctly
+app.use('/api/upload-middleware', uploadMiddleware); // Middleware route
 
-// Example route with middleware (ensure handler function is defined)
+// Example route with middleware
 const someRouteHandler = (req, res) => res.send('Middleware route working!');
-app.use('/some-route', authMiddleware, someRouteHandler); // Defined handler function for example
+app.use('/some-route', authMiddleware, someRouteHandler); // Added the correct handler function
 
 // Example route to fetch data from PostgreSQL using Sequelize
 app.get('/users-pg', async (req, res) => {
