@@ -4,19 +4,18 @@ const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const { connectDB, sequelize } = require('./db'); // Import connectDB function and Sequelize instance
+const { connectDB, sequelize } = require('./db');
 
-// Import your routes and middleware
-const transferRoutes = require('./routes/transfer'); // Make sure this path and file exist
-const authRoutes = require('./routes/auth');
-const accountRoutes = require('./routes/account');
+// Import your routes
+const transferRoutes = require('./routes/transfer');
+const authRoutes = require('./routes/auth'); // Ensure authRoutes is properly defined and exported
+const accountRoutes = require('./routes/account'); // Ensure accountRoutes is properly defined and exported
 const updateRoutes = require('./routes/update');
-const { uploadMiddleware } = require('./middleware/uploadMiddleware');
-const authMiddleware = require('./middleware/authMiddleware');
-const checkDepositRoutes = require('./routes/checkDeposit'); // Ensure this file exists
+const checkDepositRoutes = require('./routes/checkDeposit'); // Ensure checkDepositRoutes is properly defined and exported
 
-// Import Sequelize models
-const { User, Transaction } = require('./models');
+// Import middleware
+const { uploadMiddleware } = require('./middleware/uploadMiddleware');
+const authMiddleware = require('./middleware/authMiddleware'); // Ensure authMiddleware is properly defined and exported
 
 dotenv.config();
 
@@ -31,27 +30,17 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // API Routes
-app.use('/api/transfer', transferRoutes); // Fixed: Ensure 'transferRoutes' is defined correctly
+app.use('/api/transfer', transferRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/accounts', accountRoutes);
 app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoutes);
+
+// Middleware Route Example (if needed)
 app.use('/api/upload-middleware', uploadMiddleware);
 
-// Example route with middleware
-const someRouteHandler = (req, res) => res.send('Middleware route working!');
-app.use('/some-route', authMiddleware, someRouteHandler);
-
-// Example route to fetch data from PostgreSQL using Sequelize
-app.get('/users-pg', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+// Example route with auth middleware applied
+app.use('/some-route', authMiddleware, (req, res) => res.send('Some Route Protected'));
 
 // Catch-all handler to return React app for any other request
 app.get('*', (req, res) => {

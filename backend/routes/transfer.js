@@ -6,7 +6,7 @@ const { protect } = require('../middleware/authMiddleware');
 const mongoose = require('mongoose');
 
 // Handle transfer between users
-router.post('/', protect, async (req, res) => { // Use '/' since server.js uses '/api/transfer' as base path
+router.post('/', protect, async (req, res) => {
   const { senderId, recipientId, amount } = req.body;
 
   // Check for missing or invalid data
