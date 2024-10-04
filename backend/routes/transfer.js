@@ -1,8 +1,7 @@
-// routes/transfer.js
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
-const { protect } = require('../middleware/authMiddleware');
+const User = require('../models/user'); // Ensure the correct path to the User model
+const { protect } = require('../middleware/authMiddleware'); // Ensure the protect middleware is properly defined and imported
 const mongoose = require('mongoose');
 
 // Handle transfer between users
