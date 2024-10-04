@@ -6,7 +6,7 @@ const upload = require('../middleware/uploadMiddleware'); // Make sure to includ
 
 // Initial simple route for check deposit (optional)
 router.post('/', (req, res) => {
-  res.send('Check deposit route');
+  res.send('Check deposit route working!');
 });
 
 // Enhanced check deposit route with authentication and file upload

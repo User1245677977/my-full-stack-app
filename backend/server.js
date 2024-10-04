@@ -1,19 +1,19 @@
 // server.js
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const { connectDB, sequelize } = require('./db'); // Import connectDB function and Sequelize instance
-const app = express();
 
 // Import your routes and middleware
-const transferRoute = require('./routes/transfer');
+const transferRoutes = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const updateRoutes = require('./routes/update');
 const { uploadMiddleware } = require('./middleware/uploadMiddleware');
 const authMiddleware = require('./middleware/authMiddleware');
-const checkDepositRoute = require('./routes/checkDeposit');
+const checkDepositRoutes = require('./routes/checkDeposit'); // Fix variable name to match usage
 
 // Import Sequelize models
 const { User, Transaction } = require('./models');
@@ -30,14 +30,17 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 // Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-// API Routes
-app.use('/api/transfer', transferRoute);
+// API Routes (Fixed route variables)
+app.use('/api/transfer', transferRoutes); // Changed from transferRoute to transferRoutes
 app.use('/api/auth', authRoutes);
 app.use('/api/accounts', accountRoutes);
 app.use('/api/update', updateRoutes);
-app.use('/api/check-deposit', checkDepositRoute);
+app.use('/api/check-deposit', checkDepositRoutes); // Changed from checkDepositRoute to checkDepositRoutes
 app.use('/api/upload-middleware', uploadMiddleware); // Properly setup middleware route
-app.use('/some-route', authMiddleware, someRouteHandler); // Example route with middleware
+
+// Example route with middleware (ensure handler function is defined)
+const someRouteHandler = (req, res) => res.send('Middleware route working!');
+app.use('/some-route', authMiddleware, someRouteHandler); // Defined handler function for example
 
 // Example route to fetch data from PostgreSQL using Sequelize
 app.get('/users-pg', async (req, res) => {
