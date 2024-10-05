@@ -8,14 +8,14 @@ const { connectDB, sequelize } = require('./db');
 
 // Import your routes
 const transferRoutes = require('./routes/transfer');
-const authRoutes = require('./routes/auth'); // Ensure authRoutes is properly defined and exported
-const accountRoutes = require('./routes/account'); // Ensure accountRoutes is properly defined and exported
+const authRoutes = require('./routes/auth'); 
+const accountRoutes = require('./routes/account'); 
 const updateRoutes = require('./routes/update');
-const checkDepositRoutes = require('./routes/checkDeposit'); // Ensure checkDepositRoutes is properly defined and exported
+const checkDepositRoutes = require('./routes/checkDeposit'); 
 
 // Import middleware
-const { uploadMiddleware } = require('./middleware/uploadMiddleware');
-const authMiddleware = require('./middleware/authMiddleware'); // Ensure authMiddleware is properly defined and exported
+const uploadMiddleware = require('./middleware/uploadMiddleware');
+const authMiddleware = require('./middleware/authMiddleware');
 
 dotenv.config();
 

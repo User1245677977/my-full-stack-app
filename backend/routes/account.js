@@ -1,14 +1,14 @@
 // routes/account.js
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const { protect } = require('../middleware/authMiddleware');
+const uploadMiddleware = require('../middleware/uploadMiddleware');
 
 // Import the correct models
 const User = require('../models/user'); // Ensure the User model is correctly imported
 const Transaction = require('../models/Transaction'); // Ensure the Transaction model is correctly imported
 
 // Import middleware
-const { protect } = require('../middleware/authMiddleware');
 const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Ensure uploadMiddleware is correctly imported
 
 // Helper function to get withdrawal limit based on account type
