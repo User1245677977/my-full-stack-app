@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
-const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Use the correct named export
+const uploadMiddleware = require('../middleware/uploadMiddleware'); // Use the correct named export
 
 // Initial simple route for check deposit
 router.post('/', (req, res) => {

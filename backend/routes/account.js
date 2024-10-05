@@ -1,25 +1,24 @@
-// routes/account.js
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
-const uploadMiddleware = require('../middleware/uploadMiddleware');
+const mongoose = require('mongoose');
 
 // Import the correct models
-const User = require('../models/user'); // Ensure the User model is correctly imported
-const Transaction = require('../models/Transaction'); // Ensure the Transaction model is correctly imported
+const User = require('../models/user');
+const Transaction = require('../models/Transaction');
 
 // Import middleware
-const { uploadMiddleware } = require('../middleware/uploadMiddleware'); // Ensure uploadMiddleware is correctly imported
+const { protect } = require('../middleware/authMiddleware');
+const uploadMiddleware = require('../middleware/uploadMiddleware'); // Ensure only one import statement without curly braces
 
 // Helper function to get withdrawal limit based on account type
 const getWithdrawalLimit = (accountType) => {
   switch (accountType) {
     case 'savings':
-      return 1000; // Example limit for savings accounts
+      return 1000;
     case 'checking':
-      return 2000; // Example limit for checking accounts
+      return 2000;
     case 'business':
-      return 5000; // Example limit for business accounts
+      return 5000;
     default:
       return 0;
   }
@@ -32,9 +31,7 @@ router.post('/check-deposit', protect, uploadMiddleware.single('checkImage'), as
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    // Store the file path in the user's document or handle it as needed
     const filePath = req.file.path;
-
     res.status(200).json({ message: 'Check deposited successfully', filePath });
   } catch (error) {
     console.error('Error processing check deposit:', error);

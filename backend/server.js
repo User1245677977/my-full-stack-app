@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -8,13 +7,13 @@ const { connectDB, sequelize } = require('./db');
 
 // Import your routes
 const transferRoutes = require('./routes/transfer');
-const authRoutes = require('./routes/auth'); 
-const accountRoutes = require('./routes/account'); 
+const authRoutes = require('./routes/auth');
+const accountRoutes = require('./routes/account');
 const updateRoutes = require('./routes/update');
-const checkDepositRoutes = require('./routes/checkDeposit'); 
+const checkDepositRoutes = require('./routes/checkDeposit');
 
 // Import middleware
-const uploadMiddleware = require('./middleware/uploadMiddleware');
+const uploadMiddleware = require('./middleware/uploadMiddleware'); // Single import without curly braces
 const authMiddleware = require('./middleware/authMiddleware');
 
 dotenv.config();
@@ -35,12 +34,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/accounts', accountRoutes);
 app.use('/api/update', updateRoutes);
 app.use('/api/check-deposit', checkDepositRoutes);
-
-// Middleware Route Example (if needed)
-app.use('/api/upload-middleware', uploadMiddleware);
-
-// Example route with auth middleware applied
-app.use('/some-route', authMiddleware, (req, res) => res.send('Some Route Protected'));
 
 // Catch-all handler to return React app for any other request
 app.get('*', (req, res) => {
