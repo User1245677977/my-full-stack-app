@@ -1,16 +1,16 @@
 module.exports = {
   development: {
-    username: process.env.DB_USERNAME || "your_dev_username",
-    password: process.env.DB_PASSWORD || "your_dev_password",
-    database: process.env.DB_NAME || "development_db",
-    host: process.env.DB_HOST || "127.0.0.1",
+    username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
+    password: process.env.DB_PASSWORD || "pt91iuay7r6lz61m",
+    database: process.env.DB_NAME || "k074fnbxna9d128p",
+    host: process.env.DB_HOST || "p1us8ottbqwio8hv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     dialect: "postgres",
   },
   test: {
-    username: process.env.DB_USERNAME || "your_test_username",
-    password: process.env.DB_PASSWORD || "your_test_password",
-    database: process.env.DB_NAME || "test_db",
-    host: process.env.DB_HOST || "127.0.0.1",
+    username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
+    password: process.env.DB_PASSWORD || "pt91iuay7r6lz61m",
+    database: process.env.DB_NAME || "k074fnbxna9d128p",
+    host: process.env.DB_HOST || "p1us8ottbqwio8hv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     dialect: "postgres",
   },
   production: {
