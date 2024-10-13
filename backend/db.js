@@ -1,5 +1,7 @@
+//db.js
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
+const { connectDB } = require('./db');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -15,12 +17,12 @@ console.log("Database URL:", databaseUrl);
 
 // Set up a new Sequelize instance for PostgreSQL
 const sequelize = new Sequelize(databaseUrl, {
-  dialect: 'postgres',
-  logging: false, // Disable logging; default: console.log
+  dialect: 'postgres', // This should be 'postgres'
+  logging: false,
   dialectOptions: {
     ssl: process.env.NODE_ENV === 'production' ? {
       require: true,
-      rejectUnauthorized: false, // Allows Heroku SSL connection
+      rejectUnauthorized: false,
     } : false,
   },
 });
