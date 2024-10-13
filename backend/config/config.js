@@ -14,7 +14,7 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    use_env_variable: 'JAWSDB_URL',  // Ensure this is wrapped in quotes
+    use_env_variable: 'JAWSDB_URL',  // This is important
     dialect: 'mysql',
     dialectOptions: {
       ssl: {
