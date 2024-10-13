@@ -16,11 +16,12 @@ module.exports = {
   production: {
     use_env_variable: 'JAWSDB_URL',
     dialect: 'mysql',
+    logging: console.log,  // Enable logging for debugging
     dialectOptions: {
       ssl: {
         require: true,
         rejectUnauthorized: false,
       },
     },
-  },
+  },  
 }  
