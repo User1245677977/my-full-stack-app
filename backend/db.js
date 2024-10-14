@@ -13,9 +13,9 @@ if (!databaseUrl) {
 }
 console.log("Database URL:", databaseUrl);
 
-// Set up a new Sequelize instance for PostgreSQL
+// Set up a new Sequelize instance for MySQL
 const sequelize = new Sequelize(databaseUrl, {
-  dialect: 'postgres', // Ensure you're using the right dialect
+  dialect: 'mysql', // Use MySQL here instead of 'postgres'
   logging: false,
   dialectOptions: {
     ssl: process.env.NODE_ENV === 'production' ? {
@@ -29,7 +29,7 @@ const sequelize = new Sequelize(databaseUrl, {
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log('PostgreSQL connected successfully.');
+    console.log('MySQL connected successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error.message);
     process.exit(1);
