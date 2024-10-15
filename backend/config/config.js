@@ -1,4 +1,3 @@
-//config.js
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
