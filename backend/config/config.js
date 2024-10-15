@@ -14,12 +14,12 @@ module.exports = {
     dialect: "mysql",
   },
   production: {
-    use_env_variable: 'JAWSDB_URL',
+    use_env_variable: 'JAWSDB_URL', // Use environment variable for production
     dialect: 'mysql',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false,
+        rejectUnauthorized: false, // Required for Heroku SSL connections
       },
     },
   },
