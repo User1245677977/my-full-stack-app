@@ -1,19 +1,19 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
-dotenv.config();  // Load environment variables from .env
+// Load environment variables from .env file
+dotenv.config(); 
 
 // Use JAWSDB_URL for production or DATABASE_URL for other environments
 const databaseUrl = process.env.JAWSDB_URL || process.env.DATABASE_URL;
 
 if (!databaseUrl) {
-  console.error("DATABASE_URL or JAWSDB_URL is not defined. Please check your environment variables.");
+  console.error("Error: DATABASE_URL or JAWSDB_URL is not defined. Please check your environment variables.");
   process.exit(1);
 }
 
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize(process.env.JAWSDB_URL, {
+// Initialize Sequelize with the appropriate connection options
+const sequelize = new Sequelize(databaseUrl, {
   dialect: 'mysql',
   dialectOptions: {
     ssl: {
@@ -23,4 +23,5 @@ const sequelize = new Sequelize(process.env.JAWSDB_URL, {
   },
 });
 
+// Export the sequelize instance for use in other parts of your application
 module.exports = { sequelize };
