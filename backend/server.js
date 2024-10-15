@@ -5,6 +5,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 const { connectDB, sequelize } = require('./db');
+console.log("Database URL from environment:", process.env.JAWSDB_URL);
+
 
 // Import your routes
 const transferRoutes = require('./routes/transfer');

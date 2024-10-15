@@ -4,24 +4,23 @@ module.exports = {
     password: process.env.DB_PASSWORD || "pt91iuay7r6lz61m",
     database: process.env.DB_NAME || "k074fnbxna9d128p",
     host: process.env.DB_HOST || "p1us8ottbqwio8hv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    dialect: "mysql",  // Use MySQL dialect
+    dialect: "mysql",
   },
   test: {
     username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
     password: process.env.DB_PASSWORD || "pt91iuay7r6lz61m",
     database: process.env.DB_NAME || "k074fnbxna9d128p",
     host: process.env.DB_HOST || "p1us8ottbqwio8hv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    dialect: "mysql",  // Use MySQL dialect
+    dialect: "mysql",
   },
   production: {
-    use_env_variable: 'JAWSDB_URL',
+    use_env_variable: 'JAWSDB_URL', // This ensures Sequelize uses the JAWSDB URL in production
     dialect: 'mysql',
-    logging: console.log,  // Enable logging for debugging
     dialectOptions: {
       ssl: {
         require: true,
         rejectUnauthorized: false,
       },
     },
-  },  
-}  
+  },
+};

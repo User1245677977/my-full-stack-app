@@ -31,12 +31,12 @@ const User = sequelize.define('User', {
     defaultValue: 'customer',
   },
   check_images: {
-    type: DataTypes.ARRAY(DataTypes.STRING), // Array of strings for storing check images (PostgreSQL specific)
-    defaultValue: [],
+    type: DataTypes.JSON, // Use JSON instead of ARRAY for MySQL compatibility
+    allowNull: true,
   },
 }, {
-  tableName: 'users', // Define table name explicitly
-  timestamps: true,   // Auto-manage createdAt and updatedAt fields
+  tableName: 'users',
+  timestamps: true, // Automatically manage createdAt and updatedAt fields
 });
 
 // Hook to hash password before saving a new user
