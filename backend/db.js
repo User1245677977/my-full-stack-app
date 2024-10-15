@@ -18,9 +18,9 @@ const sequelize = new Sequelize(databaseUrl, {
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false,
-    },
-  },
+      rejectUnauthorized: false
+    }
+  }
 });
 
 // Export the sequelize instance for use in other parts of your application
