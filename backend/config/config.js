@@ -1,3 +1,4 @@
+//config.js
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
@@ -14,7 +15,7 @@ module.exports = {
     dialect: "mysql",
   },
   production: {
-    use_env_variable: 'JAWSDB_URL',  // Ensure this is set correctly
+    use_env_variable: 'JAWSDB_URL',
     dialect: 'mysql',
     dialectOptions: {
       ssl: {

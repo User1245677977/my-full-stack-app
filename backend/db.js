@@ -1,8 +1,8 @@
+//db.js
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
-// Load environment variables from .env file (optional)
-dotenv.config();
+dotenv.config();  // Load environment variables from .env
 
 // Use JAWSDB_URL for production or DATABASE_URL for other environments
 const databaseUrl = process.env.JAWSDB_URL || process.env.DATABASE_URL;
@@ -14,7 +14,7 @@ if (!databaseUrl) {
 
 const sequelize = new Sequelize(databaseUrl, {
   dialect: 'mysql',
-  logging: false,
+  logging: false,  // Disable logging for cleaner output
   dialectOptions: {
     ssl: process.env.NODE_ENV === 'production' ? {
       require: true,
