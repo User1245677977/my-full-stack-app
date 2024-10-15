@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const bcrypt = require('bcryptjs');
-const { sequelize } = require('../db'); // Ensure correct import of sequelize instance
+const { sequelize } = require('../db');
 
 // Define the User model using Sequelize
 const User = sequelize.define('User', {
@@ -31,7 +31,7 @@ const User = sequelize.define('User', {
     defaultValue: 'customer',
   },
   check_images: {
-    type: DataTypes.JSON, // Use JSON instead of ARRAY for MySQL compatibility
+    type: DataTypes.JSON,  // Use JSON for storing check images in MySQL
     allowNull: true,
   },
 }, {

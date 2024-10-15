@@ -4,22 +4,15 @@ const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const { connectDB, sequelize } = require('./db');
+const { sequelize } = require('./db');
 console.log("Database URL from environment:", process.env.JAWSDB_URL);
 
-
-// Import your routes
+// Import routes
 const transferRoutes = require('./routes/transfer');
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const updateRoutes = require('./routes/update');
 const checkDepositRoutes = require('./routes/checkDeposit');
-
-// Import middleware
-const uploadMiddleware = require('./middleware/uploadMiddleware'); // Single import without curly braces
-const authMiddleware = require('./middleware/authMiddleware');
-
-dotenv.config();
 
 // Middleware
 app.use(cors());
@@ -42,9 +35,6 @@ app.use('/api/check-deposit', checkDepositRoutes);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-
-// Connect to PostgreSQL using the connectDB function
-connectDB();
 
 // Start the server
 const PORT = process.env.PORT || 5000;
