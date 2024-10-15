@@ -31,7 +31,7 @@ const User = sequelize.define('User', {
     defaultValue: 'customer',
   },
   check_images: {
-    type: DataTypes.JSON,  // Use JSON for storing check images in MySQL
+    type: DataTypes.JSON,  // Use JSON instead of ARRAY for MySQL compatibility
     allowNull: true,
   },
 }, {
