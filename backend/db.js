@@ -11,14 +11,15 @@ if (!databaseUrl) {
   process.exit(1);
 }
 
-const sequelize = new Sequelize(databaseUrl, {
+const Sequelize = require('sequelize');
+
+const sequelize = new Sequelize(process.env.JAWSDB_URL, {
   dialect: 'mysql',
-  logging: false,  // Disable logging for cleaner output
   dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? {
+    ssl: {
       require: true,
       rejectUnauthorized: false,
-    } : false,
+    },
   },
 });
 
