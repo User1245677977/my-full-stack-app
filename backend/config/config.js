@@ -23,8 +23,8 @@ module.exports = {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false,  // Avoids SSL issues on Heroku
+        rejectUnauthorized: false,
       },
     },
-  },
+  }
 };
