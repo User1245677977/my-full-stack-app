@@ -2,13 +2,13 @@
 
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
-dotenv.config(); 
+dotenv.config();
 
-const databaseUrl = process.env.JAWSDB_URL || process.env.DATABASE_URL;
-
+// Use the DATABASE_URL in production
+const databaseUrl = process.env.DATABASE_URL;
 
 if (!databaseUrl) {
-  console.error("Error: DATABASE_URL or JAWSDB_URL is not defined.");
+  console.error('Error: DATABASE_URL is not defined.');
   process.exit(1);
 }
 
@@ -17,7 +17,7 @@ const sequelize = new Sequelize(databaseUrl, {
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false,
+      rejectUnauthorized: false, // Disable SSL verification for remote MySQL connections
     },
   },
 });
