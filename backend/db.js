@@ -1,8 +1,11 @@
+//db.js
+
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 dotenv.config(); 
 
 const databaseUrl = process.env.JAWSDB_URL || process.env.DATABASE_URL;
+
 
 if (!databaseUrl) {
   console.error("Error: DATABASE_URL or JAWSDB_URL is not defined.");
