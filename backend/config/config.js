@@ -1,5 +1,7 @@
 //config.js
+
 console.log('JAWSDB_URL:', process.env.JAWSDB_URL);
+
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
@@ -16,12 +18,12 @@ module.exports = {
     dialect: "mysql",
   },
   production: {
-    use_env_variable: 'JAWSDB_URL',  // Make sure this is present and correct
+    use_env_variable: 'JAWSDB_URL',
     dialect: 'mysql',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // Allow SSL connections to Heroku MySQL
+        rejectUnauthorized: false,  // Avoids SSL issues on Heroku
       },
     },
   },
