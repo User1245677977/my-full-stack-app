@@ -18,7 +18,7 @@ const sequelize = new Sequelize(databaseUrl, {
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false
+      rejectUnauthorized: false  // Avoid SSL certificate errors
     }
   }
 });
