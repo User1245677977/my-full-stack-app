@@ -1,5 +1,5 @@
 //config.js
-console.log('DB URL:', process.env.JAWSDB_URL);
+console.log('JAWSDB_URL:', process.env.JAWSDB_URL);
 module.exports = {
   development: {
     username: process.env.DB_USERNAME || "ka0a54erd9z2becm",
