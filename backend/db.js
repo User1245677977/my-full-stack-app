@@ -1,3 +1,5 @@
+//db.js
+
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
@@ -13,7 +15,7 @@ if (!databaseUrl) {
 }
 
 const sequelize = new Sequelize(databaseUrl, {
-  dialect: 'postgres',  // Change from 'mysql' to 'postgres'
+  dialect: 'postgres',  // Ensure you're using 'postgres'
   dialectOptions: {
     ssl: {
       require: true,
@@ -23,3 +25,4 @@ const sequelize = new Sequelize(databaseUrl, {
 });
 
 module.exports = { sequelize };
+
