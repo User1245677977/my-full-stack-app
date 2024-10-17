@@ -15,7 +15,7 @@ if (!databaseUrl) {
 }
 
 const sequelize = new Sequelize(databaseUrl, {
-  dialect: 'mysql',
+  dialect: 'postgres',  // Change to 'postgres'
   dialectOptions: {
     ssl: {
       require: true,
