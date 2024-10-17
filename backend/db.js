@@ -1,10 +1,8 @@
-//db.js
-
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
 // Load environment variables from .env file
-dotenv.config(); 
+dotenv.config();
 
 // Use DATABASE_URL in production
 const databaseUrl = process.env.DATABASE_URL;
@@ -15,7 +13,7 @@ if (!databaseUrl) {
 }
 
 const sequelize = new Sequelize(databaseUrl, {
-  dialect: 'postgres',  // Change to 'postgres'
+  dialect: 'postgres',  // Change from 'mysql' to 'postgres'
   dialectOptions: {
     ssl: {
       require: true,
