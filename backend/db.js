@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 dotenv.config(); 
 
 // Use DATABASE_URL in production
-const databaseUrl = process.env.DATABASE_URL;  // ONLY DATABASE_URL
+const databaseUrl = process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   console.error("Error: DATABASE_URL is not defined.");
