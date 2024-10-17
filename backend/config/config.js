@@ -16,12 +16,12 @@ module.exports = {
     dialect: 'mysql',
   },
   production: {
-    use_env_variable: 'DATABASE_URL',  // Ensure you're using 'DATABASE_URL'
+    use_env_variable: 'DATABASE_URL',  // ONLY USE DATABASE_URL
     dialect: 'mysql',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false,  // Disable SSL verification for connection
+        rejectUnauthorized: false, // This ensures SSL is handled correctly
       },
     },
   },
