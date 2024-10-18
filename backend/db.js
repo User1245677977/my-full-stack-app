@@ -19,10 +19,9 @@ const sequelize = new Sequelize(databaseUrl, {
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false,  // Disable SSL verification for remote connections
+      rejectUnauthorized: false,
     },
   },
 });
 
 module.exports = { sequelize };
-
