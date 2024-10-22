@@ -16,7 +16,7 @@ module.exports = {
     dialect: 'postgres',
   },
   production: {
-    use_env_variable: 'DATABASE_URL', // This should match your Heroku config
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
@@ -24,7 +24,7 @@ module.exports = {
         rejectUnauthorized: false,
       },
     },
-  },
+  }  
 };
 
 
