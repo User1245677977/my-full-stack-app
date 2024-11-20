@@ -24,5 +24,6 @@ module.exports = {
         rejectUnauthorized: false,
       },
     },
+    logging: console.log
   },
 };
