@@ -43,6 +43,9 @@
     "server": "node index.js",
     "heroku-postbuild": "npm install"
   },
+  "engines": {
+    "node": ">=16.x"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
