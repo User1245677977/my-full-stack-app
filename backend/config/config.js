@@ -7,6 +7,12 @@ module.exports = {
     database: process.env.DB_NAME || 'd8ch2lf0g026bu',
     host: process.env.DB_HOST || 'c6sfjnr30ch74e.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
     dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
   test: {
     username: process.env.DB_USERNAME || 'ue4clvdek4525j',
@@ -14,6 +20,12 @@ module.exports = {
     database: process.env.DB_NAME || 'd8ch2lf0g026bu',
     host: process.env.DB_HOST || 'c6sfjnr30ch74e.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
     dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
   production: {
     use_env_variable: 'DATABASE_URL',
