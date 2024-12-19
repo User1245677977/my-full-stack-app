@@ -1,3 +1,5 @@
+//account.js
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -23,6 +25,39 @@ const getWithdrawalLimit = (accountType) => {
       return 0;
   }
 };
+
+// Create Account Route
+router.post('/create-account', async (req, res) => {
+  console.log('Request body:', req.body); // Log the request data
+  try {
+    const { name, email, password, accountType } = req.body;
+
+    // Validate the required fields
+    if (!name || !email || !password || !accountType) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
+    // Create a new user
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+      accountType,
+      balance: 0, // Default balance is 0
+    });
+
+    res.status(201).json({ message: 'Account created successfully', user: newUser });
+  } catch (error) {
+    console.error('Error creating account:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 // Check deposit route
 router.post('/check-deposit', protect, uploadMiddleware.single('checkImage'), async (req, res) => {
